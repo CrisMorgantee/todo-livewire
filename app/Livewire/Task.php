@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class Task extends Component
 {
-    public string $titulo = '';
+    public string $title = '';
 
     public function render(): View
     {
@@ -20,14 +20,14 @@ class Task extends Component
     #[Computed]
     public function tasks(): Collection
     {
-        return TaskModel::all();
+        return TaskModel::orderBy('created_at', 'desc')->get();
     }
 
     public function createTask(): void
     {
         TaskModel::create([
-            'titulo' => $this->titulo,
-            'status' => 'aberto',
+            'title' => $this->title,
+            'status' => 'backlog',
         ]);
 
         $this->reset();
@@ -36,7 +36,7 @@ class Task extends Component
     #[Computed]
     public function doneTasks(): int
     {
-        return TaskModel::where('status', 'concluido')->count();
+        return TaskModel::where('status', 'done')->count();
     }
 
     public function toggleTaskStatus(int $taskId): void
@@ -44,7 +44,7 @@ class Task extends Component
         $task = TaskModel::find($taskId);
 
         $task?->update([
-            'status' => $task->status === 'aberto' ? 'concluido' : 'aberto',
+            'status' => $task->status === 'backlog' ? 'done' : 'backlog',
         ]);
 
         $this->reset();

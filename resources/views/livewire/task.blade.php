@@ -4,9 +4,9 @@
     <!-- Formulário para adicionar tarefas -->
     <form wire:submit="createTask()" method="POST" class="flex gap-2 mb-4 absolute -top-10 right-0 left-0" >
       @csrf
-      <input type="text" name="titulo" wire:model="titulo" placeholder="Adicione uma nova tarefa"
-             class="flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-sky-800"
-             value="{{ old('titulo') }}" />
+      <input type="text" wire:model="title" placeholder="Adicione uma nova tarefa"
+             class="placeholder-slate-400 flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-blue-800"
+             value="{{ old('title') }}" />
       <button type="submit"
               class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" >
         Criar
@@ -28,20 +28,20 @@
     @forelse($this->tasks as $task)
       <div wire:key="{{$task->id}}" class="flex justify-between items-center bg-slate-700 px-6 py-4 rounded mb-2" >
         <div class="flex items-center w-full" >
-          <label wire:click="toggleTaskStatus({{$task->id}})" for="task_{{$task->id}}"
-                 class="flex items-center text-slate-200 w-full {{ $task->status === 'concluido' ? 'line-through text-slate-400' : '' }}" >
-            <input id="task_{{$task->id}}" type="checkbox"
-                   class="w-6 h-6 mr-3 bg-slate-800 rounded-md appearance-none border-2 border-slate-600 cursor-pointer relative checked:bg-sky-700 focus:ring-2 focus:ring-sky-800 focus:outline-none before:absolute before:top-1 before:left-1 checked:before:content-[''] before:w-2 before:h-3 before:border-2 before:border-gray-100 before:border-t-0 before:border-l-0 before:opacity-0 checked:before:opacity-100 checked:before:transform checked:before:rotate-45 transition-all" {{ $task->status === 'concluido' ? 'checked' : '' }}/>
+          <label for="task_{{$task->id}}"
+                 class="flex items-center text-slate-200 w-full {{ $task->status === 'done' ? 'line-through text-slate-400' : '' }}" >
+            <input id="task_{{$task->id}}" type="checkbox" wire:click="toggleTaskStatus({{$task->id}})"
+                   class="w-6 h-6 mr-3 bg-slate-800 rounded-md appearance-none border-2 border-slate-600 cursor-pointer relative checked:bg-blue-600 focus:ring-2 focus:ring-blue-800 focus:outline-none before:absolute before:top-1 before:left-1 checked:before:content-[''] before:w-2 before:h-3 before:border-2 before:border-slate-100 before:border-t-0 before:border-l-0 before:opacity-0 checked:before:opacity-100 checked:before:transform checked:before:rotate-45 transition-all " {{ $task->status === 'done' ? 'checked' : '' }}/>
 
-            <span class="block" >{{ $task->titulo }}</span >
+            <span class="block" >{{ $task->title }}</span >
           </label >
         </div >
-        <form wire:submit.prevent="deleteTask({{ $task->id }})" method="POST">
+        <form wire:submit.prevent="deleteTask({{ $task->id }})" method="POST" >
           @csrf
-          <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">
+          <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" >
             Excluir
-          </button>
-        </form>
+          </button >
+        </form >
 
       </div >
     @empty

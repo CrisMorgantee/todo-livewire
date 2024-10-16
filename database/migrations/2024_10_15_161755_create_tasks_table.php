@@ -9,8 +9,8 @@ return new class () extends Migration {
     {
         Schema::create('tasks', function(Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->enum('status', ['aberto', 'andamento', 'concluido']);
+            $table->string('title');
+            $table->enum('status', ['backlog', 'done'])->default('backlog');
             $table->timestamps();
         });
     }
