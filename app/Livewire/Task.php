@@ -6,10 +6,12 @@ use App\Models\Task as TaskModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Task extends Component
 {
+    #[Validate('required')]
     public string $title = '';
 
     public function render(): View
@@ -25,8 +27,10 @@ class Task extends Component
 
     public function createTask(): void
     {
+        $this->validate();
+
         TaskModel::create([
-            'title' => $this->title,
+            'title'  => $this->title,
             'status' => 'backlog',
         ]);
 

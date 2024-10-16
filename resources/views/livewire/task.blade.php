@@ -4,9 +4,12 @@
     <!-- Formulário para adicionar tarefas -->
     <form wire:submit="createTask()" method="POST" class="flex gap-2 mb-4 absolute -top-10 right-0 left-0" >
       @csrf
-      <input type="text" wire:model="title" placeholder="Adicione uma nova tarefa"
-             class="placeholder-slate-400 flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-blue-800"
-             value="{{ old('title') }}" />
+      <div class="flex flex-col w-full relative" >
+        @error('title') <span class="text-red-500 text-sm absolute -top-6" >{{ $message }}</span > @enderror
+        <input type="text" wire:model="title" placeholder="Adicione uma nova tarefa"
+               class="placeholder-slate-400 flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-blue-800"
+               value="{{ old('title') }}" />
+      </div >
       <button type="submit"
               class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" >
         Criar
@@ -16,6 +19,7 @@
                 d="M12 4v16m8-8H4" ></path >
         </svg >
       </button >
+
     </form >
 
     <!-- Resumo -->
@@ -36,12 +40,11 @@
             <span class="block" >{{ $task->title }}</span >
           </label >
         </div >
-        <form wire:submit.prevent="deleteTask({{ $task->id }})" method="POST" >
-          @csrf
-          <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" >
-            Excluir
-          </button >
-        </form >
+
+        <button wire:click="deleteTask({{ $task->id }})"
+                class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" >
+          Excluir
+        </button >
 
       </div >
     @empty
