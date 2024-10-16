@@ -2,13 +2,13 @@
 
 namespace App\Livewire;
 
-use AllowDynamicProperties;
+use App\Models\Task as TaskModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-#[AllowDynamicProperties] class Task extends Component
+class Task extends Component
 {
     public string $titulo = '';
 
@@ -20,12 +20,12 @@ use Livewire\Component;
     #[Computed]
     public function tasks(): Collection
     {
-        return \App\Models\Task::all();
+        return TaskModel::all();
     }
 
     public function createTask(): void
     {
-        \App\Models\Task::create([
+        TaskModel::create([
             'titulo' => $this->titulo,
             'status' => 'aberto',
         ]);
@@ -36,25 +36,23 @@ use Livewire\Component;
     #[Computed]
     public function doneTasks(): int
     {
-        return \App\Models\Task::where('status', 'concluido')->count();
+        return TaskModel::where('status', 'concluido')->count();
     }
 
     public function toggleTaskStatus(int $taskId): void
     {
-        $task = \App\Models\Task::find($taskId);
+        $task = TaskModel::find($taskId);
 
-        if (!$task) {
-            return;
-        }
+        $task?->update([
+            'status' => $task->status === 'aberto' ? 'concluido' : 'aberto',
+        ]);
 
-        // Alternar o status
-        $task->status = $task->status === 'concluido' ? 'aberto' : 'concluido';
-        $task->save();
+        $this->reset();
     }
 
     public function deleteTask(int $taskId): void
     {
-        $task = \App\Models\Task::find($taskId);
+        $task = TaskModel::find($taskId);
 
         $task?->delete();
     }
