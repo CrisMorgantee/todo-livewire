@@ -5,8 +5,12 @@
     <form wire:submit="createTask()" method="POST" class="flex gap-2 mb-4 absolute -top-10 right-0 left-0" >
       @csrf
       <div class="flex flex-col w-full relative" >
-        @error('title') <span class="text-red-500 text-sm absolute -top-6" >{{ $message }}</span > @enderror
-        <input type="text" wire:model="title" placeholder="Adicione uma nova tarefa"
+        @error('title')
+        <span class="text-red-500 text-sm absolute -top-6" >
+            Não é possível criar uma tarefa sem título.
+        </span >
+        @enderror
+        <input type="text" wire:model.live.debounce.300ms="title" placeholder="Adicione uma nova tarefa"
                class="placeholder-slate-400 flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-blue-800"
                value="{{ old('title') }}" />
       </div >
