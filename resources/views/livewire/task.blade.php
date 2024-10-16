@@ -4,7 +4,7 @@
     <!-- Formulário para adicionar tarefas -->
     <form wire:submit="createTask()" method="POST" class="flex gap-2 mb-4 absolute -top-10 right-0 left-0" >
       @csrf
-      <input type="text" name="titulo" placeholder="Adicione uma nova tarefa"
+      <input type="text" name="titulo" wire:model="titulo" placeholder="Adicione uma nova tarefa"
              class="flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-sky-800"
              value="{{ old('titulo') }}" />
       <button type="submit"
@@ -33,18 +33,16 @@
             <input id="task_{{$task->id}}" type="checkbox"
                    class="w-6 h-6 mr-3 bg-slate-800 rounded-md appearance-none border-2 border-slate-600 cursor-pointer relative checked:bg-sky-700 focus:ring-2 focus:ring-sky-800 focus:outline-none before:absolute before:top-1 before:left-1 checked:before:content-[''] before:w-2 before:h-3 before:border-2 before:border-gray-100 before:border-t-0 before:border-l-0 before:opacity-0 checked:before:opacity-100 checked:before:transform checked:before:rotate-45 transition-all" {{ $task->status === 'concluido' ? 'checked' : '' }}/>
 
-            {{--                        <input type="checkbox" class="w-4 h-4 text-sky-700" {{ $tarefa['concluida'] ? 'checked' : '' }} />--}}
-
             <span class="block" >{{ $task->titulo }}</span >
           </label >
         </div >
-        <form action="#" method="POST" >
+        <form wire:submit.prevent="deleteTask({{ $task->id }})" method="POST">
           @csrf
-          @method('DELETE')
-          <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" >
+          <button type="submit" class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">
             Excluir
-          </button >
-        </form >
+          </button>
+        </form>
+
       </div >
     @empty
       <div class="text-slate-300 text-center py-10" >Nenhuma tarefa encontrada.</div >
