@@ -1,4 +1,4 @@
-<div class="container mx-auto p-4" >
+<div class="container mx-auto p-4">
   <!-- resources/views/tarefas.blade.php -->
   <div class="max-w-3xl mx-auto p-4 relative" >
     <!-- Formulário para adicionar tarefas -->
@@ -11,8 +11,7 @@
         </span >
         @enderror
         <input type="text" wire:model.live.debounce.300ms="title" placeholder="Adicione uma nova tarefa"
-               class="placeholder-slate-400 flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-blue-800"
-               value="{{ old('title') }}" />
+               class="placeholder-slate-400 flex-1 px-4 py-2 bg-slate-700 text-slate-50  rounded focus:outline-none focus:ring-1 focus:ring-blue-800"/>
       </div >
       <button type="submit"
               class="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" >

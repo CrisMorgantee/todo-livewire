@@ -30,11 +30,11 @@ class Task extends Component
         $this->validate();
 
         TaskModel::create([
-            'title'  => $this->title,
+            'title'  => $this->pull('title'),
             'status' => 'backlog',
         ]);
 
-        $this->reset();
+        $this->reset('title');
     }
 
     #[Computed]
@@ -50,8 +50,6 @@ class Task extends Component
         $task?->update([
             'status' => $task->status === 'backlog' ? 'done' : 'backlog',
         ]);
-
-        $this->reset();
     }
 
     public function deleteTask(int $taskId): void

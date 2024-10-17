@@ -4,7 +4,6 @@ use App\Models\Task;
 use Livewire\Livewire;
 
 beforeEach(function() {
-    // Limpa a tabela antes de cada teste para garantir isolamento dos testes
     Task::truncate();
 });
 
