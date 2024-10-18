@@ -44,7 +44,7 @@
           </label >
         </div >
 
-        <button wire:click="deleteTask({{ $task->id }})"
+        <button
                 class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" >
           Excluir
         </button >
